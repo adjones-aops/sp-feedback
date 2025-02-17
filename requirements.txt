@@ -7,3 +7,5 @@ pytest
 black
 isort
 flake8
+protobuf
+pre-commit

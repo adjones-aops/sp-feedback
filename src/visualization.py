@@ -79,7 +79,10 @@ def plot_stacked_bar(agg_df, course, output_filename=None, mode="numeric"):
         plt.savefig(output_filename)
         print(f"Plot saved to {output_filename}")
     else:
-        plt.show()
+        try:
+            plt.show()
+        except Exception as e:
+            print(f"Unable to display interactive plot. Error: {e}. Consider saving the plot to a file.")
 
 
 def main():
