@@ -1,5 +1,6 @@
 # src/parser.py
 
+import os
 import re
 from typing import Dict, Optional
 
@@ -92,8 +93,18 @@ def parse_feedback(html: str) -> pd.DataFrame:
 
 
 if __name__ == "__main__":
-    with open("feedback_page.html", "r", encoding="utf-8") as f:
+    # Read the HTML from your saved file.
+    html_filepath = os.path.join(os.path.dirname(__file__), "..", "data", "feedback_page.html")
+    with open(html_filepath, "r", encoding="utf-8") as f:
         html_content = f.read()
+
     df = parse_feedback(html_content)
-    pd.set_option("display.max_colwidth", None)
-    print(df)
+
+    # Ensure the output directory exists.
+    output_dir = os.path.join(os.path.dirname(__file__), "..", "data")
+    os.makedirs(output_dir, exist_ok=True)
+
+    # Write the DataFrame to CSV.
+    output_csv = os.path.join(output_dir, "parsed_feedback.csv")
+    df.to_csv(output_csv, index=False)
+    print(f"Parsed DataFrame written to {output_csv}")
