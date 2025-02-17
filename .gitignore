@@ -37,25 +37,6 @@ coverage.xml
 *.py,cover
 .hypothesis/
 
-# Translations
-*.mo
-*.pot
-
-# Django stuff:
-*.log
-local_settings.py
-db.sqlite3
-
-# Flask stuff:
-instance/
-.webassets-cache
-
-# Scrapy stuff:
-.scrapy
-
-# Type checking caches
-.mypy_cache/
-.pyre/
 
 # Virtual environments
 .env
@@ -77,3 +58,6 @@ venv.bak/
 .DS_Store
 Thumbs.db
 ehthumbs.db
+
+# Data files
+data/

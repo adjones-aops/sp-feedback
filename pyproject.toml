@@ -4,7 +4,3 @@ line-length = 120
 [tool.isort]
 profile = "black"
 skip = ["env", "venv", ".venv"]
-
-[tool.flake8]
-max-line-length = 120
-exclude = venv, .venv, env, __pycache__

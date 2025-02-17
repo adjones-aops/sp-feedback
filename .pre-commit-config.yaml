@@ -3,6 +3,12 @@ repos:
     rev: 23.3.0  # Use the latest stable version or your preferred version
     hooks:
       - id: black
+
+  - repo: https://github.com/PyCQA/isort
+    rev: 5.12.0  # Use the latest stable version or your preferred version
+    hooks:
+      - id: isort
+
   - repo: https://github.com/pycqa/flake8
     rev: 6.0.0  # Use the latest stable version or your preferred version
     hooks:
