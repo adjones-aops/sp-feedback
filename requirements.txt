@@ -1,0 +1,6 @@
+selenium
+beautifulsoup4
+pandas
+matplotlib
+streamlit
+pytest
