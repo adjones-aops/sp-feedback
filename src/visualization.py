@@ -7,61 +7,71 @@ import matplotlib.pyplot as plt
 import pandas as pd
 
 
-def plot_stacked_bar(agg_df, course, output_filename=None, mode="numeric"):
+def plot_stacked_bar(agg_df, course, output_filename=None, mode="chronological"):
     """
     mode can be:
-      - "numeric": sort by chapter_num, section_num, item_num
-      - "worst": sort by highest no percentage to lowest
+      - "chronological": sorts by the numeric prefix (min chapter and section) of the grouped lesson.
+      - "worst-to-best": sorts by descending aggregated no percentage.
+
+    Before plotting, this function groups records by lesson_title (collapsing duplicates).
+    It sums the yes_count, no_count, and total_responses, and uses the minimum chapter_num and section_num
+    for ordering and label creation.
     """
+    # Filter for the given course
     course_df = agg_df[agg_df["course"] == course].copy()
     if course_df.empty:
         print(f"No data available for course '{course}'")
         return
 
-    # Filter out chapter feedback lessons
+    # Filter out lessons with "feedback" in the lesson title.
     course_df = course_df[~course_df["lesson_title"].str.contains("feedback", case=False)]
     if course_df.empty:
         print(f"No lessons to plot after filtering out 'Feedback' lessons for '{course}'.")
         return
 
-    # Calculate no_pct for sorting if needed
-    total = course_df["yes_count"] + course_df["no_count"]
-    course_df["no_pct"] = (course_df["no_count"] / total) * 100
-
-    if mode == "worst":
-        course_df = course_df.sort_values("no_pct", ascending=False)
-        # Create an x-axis label for clarity
-        course_df["lesson_label"] = (
-            course_df["lesson_title"] + " (" + course_df["no_pct"].round(1).astype(str) + "% no)"
+    # Group by lesson_title to collapse duplicate lessons.
+    # Sum yes_count, no_count, total_responses; take the minimum chapter_num and section_num.
+    grouped = (
+        course_df.groupby("lesson_title")
+        .agg(
+            {
+                "yes_count": "sum",
+                "no_count": "sum",
+                "total_responses": "sum",
+                "chapter_num": "min",
+                "section_num": "min",
+            }
         )
-    elif mode == "numeric":
-        # If numeric columns exist, sort on them
-        if all(col in course_df.columns for col in ["chapter_num", "section_num", "item_num"]):
-            course_df = course_df.sort_values(["chapter_num", "section_num", "item_num"])
-            course_df["lesson_label"] = (
-                course_df["chapter_num"].astype(str)
-                + "."
-                + course_df["section_num"].astype(str)
-                + "."
-                + course_df["item_num"].astype(str)
-                + " "
-                + course_df["lesson_title"]
-            )
-        else:
-            # Fallback
-            course_df = course_df.sort_values("lesson_title")
-            course_df["lesson_label"] = course_df["lesson_title"]
+        .reset_index()
+    )
+
+    # Calculate aggregated no_pct.
+    total_counts = grouped["yes_count"] + grouped["no_count"]
+    grouped["no_pct"] = (grouped["no_count"] / total_counts) * 100
+
+    # Build a lesson label that uses the numeric prefix (chapter.section) and the lesson title.
+    grouped["lesson_label"] = (
+        grouped["chapter_num"].astype(str) + "." + grouped["section_num"].astype(str) + " " + grouped["lesson_title"]
+    )
+
+    # Sorting
+    if mode == "worst-to-best":
+        grouped = grouped.sort_values("no_pct", ascending=False)
+        # Optionally, add the no_pct to the label:
+        grouped["lesson_label"] = grouped["lesson_label"] + " (" + grouped["no_pct"].round(1).astype(str) + "% no)"
+    elif mode == "chronological":
+        # Sort by the numeric prefix.
+        grouped = grouped.sort_values(["chapter_num", "section_num"])
     else:
-        # Default fallback: sort by lesson_title
-        course_df = course_df.sort_values("lesson_title")
-        course_df["lesson_label"] = course_df["lesson_title"]
+        # Fallback: sort alphabetically by lesson_label.
+        grouped = grouped.sort_values("lesson_label")
 
-    # Now plot
-    lessons = course_df["lesson_label"]
-    yes_counts = course_df["yes_count"]
-    no_counts = course_df["no_count"]
+    # Now plot using the grouped data.
+    lessons = grouped["lesson_label"]
+    yes_counts = grouped["yes_count"]
+    no_counts = grouped["no_count"]
 
-    plt.figure(figsize=(15, 6))
+    plt.figure(figsize=(20, 8))
     plt.bar(lessons, yes_counts, label="Yes", color="blue")
     plt.bar(lessons, no_counts, bottom=yes_counts, label="No", color="red")
 
@@ -79,10 +89,7 @@ def plot_stacked_bar(agg_df, course, output_filename=None, mode="numeric"):
         plt.savefig(output_filename)
         print(f"Plot saved to {output_filename}")
     else:
-        try:
-            plt.show()
-        except Exception as e:
-            print(f"Unable to display interactive plot. Error: {e}. Consider saving the plot to a file.")
+        plt.show()
 
 
 def main():
@@ -95,7 +102,9 @@ def main():
         default=os.path.join("data", "aggregated_feedback.csv"),
         help="Path to the aggregated CSV file (default: data/aggregated_feedback.csv)",
     )
-    parser.add_argument("--mode", type=str, default="numeric", help="The mode to use for sorting the lessons")
+    parser.add_argument(
+        "--mode", type=str, default="chronological", help="Sorting mode: chronological or worst-to-best"
+    )
 
     args = parser.parse_args()
 
