@@ -53,7 +53,7 @@ We recommend using a virtual environment for dependency isolation. You can set u
 
 ### Automated Setup Using Makefile
 
-If you have GNU Make installed, you can simplify the process by running:
+If you have GNU Make installed, you can bypass steps 2-4 entirely. Instead, just run:
 ```bash
    make setup
 ```
