@@ -35,11 +35,11 @@ We recommend using a virtual environment for dependency isolation. You can set u
 ```
 
 3. **Activate the Virtual Environment:**
-   - On macOS/Linux:
+- On macOS/Linux:
 ```bash
      source env/bin/activate
 ```
-   - On Windows:
+- On Windows:
 ```
      env\Scripts\activate
 ```
