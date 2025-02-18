@@ -10,18 +10,17 @@ We recommend using a virtual environment for dependency isolation. You can set u
 
 1. **Clone the Repository:**
 ```bash
-   git clone git@github.com:adjones-aops/sp-feedback.git
-   cd sp-feedback
+   git clone git@github.com:adjones-aops/sp-feedback.git && cd sp-feedback
 ```
 
 2. **Create a Virtual Environment:**
 ```bash
-   python -m venv env
+   python3.10 -m venv env
 ```
 
 3. **Activate the Virtual Environment:**
-```bash
    - On macOS/Linux:
+```bash
      source env/bin/activate
 ```
 
