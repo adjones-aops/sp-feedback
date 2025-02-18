@@ -39,7 +39,6 @@ We recommend using a virtual environment for dependency isolation. You can set u
 ```bash
      source env/bin/activate
 ```
-
    - On Windows:
 ```
      env\Scripts\activate
