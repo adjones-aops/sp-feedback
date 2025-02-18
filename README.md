@@ -99,10 +99,6 @@ To run the complete test suite, from the root directory, run:
 - The project uses GitHub Actions for continuous integration. See .github/workflows/ci.yml for details.
 - Extend the tests in the tests/ directory if you add new functionality.
 
-## Contributing
-
-Contributions are welcome! Please open issues or submit pull requests for any bug fixes or feature improvements.
-
 ## License
 
 [MIT License](LICENSE)
