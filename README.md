@@ -1,6 +1,21 @@
 # Self-Paced Feedback Visualization
 
-This repository contains a pipeline to scrape, parse, aggregate, and visualize student feedback from an internal webpage. The project includes a backend (scraper, parser, and data processor) and a Streamlit front end for interactive data exploration.
+This repository contains a pipeline to scrape, parse, aggregate, and visualize student feedback from an internal webpage. You can:
+
+- Choose your course:  
+  <img src="assets/menu.png" width="200px">
+
+- Visualize feedback:  
+  <img src="assets/bar-chart.png" width="600px">
+
+- Read student comments:  
+  <img src="assets/student-feedback.png" width="600px">
+
+- Download the data in a table:  
+  <img src="assets/pandas.png" width="600px">
+
+
+Hooray!
 
 ## Installation & Setup
 
@@ -61,6 +76,7 @@ This interactive app allows you to:
 
 - **Scrape & Update Data:**  
   Click the **Scrape & Update Data** button to initiate the backend pipeline. This will open a Selenium browser for manual login and MFA, then save the scraped HTML, parse it, and aggregate the data.
+  For future times you run the app, you won't have to do a manual login and MFA unless you want to scrape new data.
 
 - **Visualization Options:**  
   Select a course and sorting mode (Chronological or Worst-to-Best) from the sidebar. The app then displays:
