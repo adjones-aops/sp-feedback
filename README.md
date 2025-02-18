@@ -2,19 +2,6 @@
 
 This repository contains a pipeline to scrape, parse, aggregate, and visualize student feedback from an internal webpage. The project includes a backend (scraper, parser, and data processor) and a Streamlit front end for interactive data exploration.
 
-## Project Structure
-
-sp-feedback/
-├── data/                        # Data output directory for scraped HTML, parsed CSV, and aggregated CSV
-├── env/                         # Virtual environment directory (not committed)
-├── src/                         # Core backend code (scraper, parser, data processor, visualization)
-├── streamlit_app/               # Streamlit front end code
-├── tests/                       # Unit and integration tests
-├── README.md                    # This file
-├── requirements.txt             # Project dependencies
-├── setup.py                     # Optional setup for local install (editable mode)
-└── Makefile                     # Optional Makefile for setup automation
-
 ## Installation & Setup
 
 We recommend using a virtual environment for dependency isolation. You can set up your environment manually or use our provided Makefile to automate the process. If you use the Makefile, it supports only Python 3.10. If you use the manual setup, we have tested with Python 3.10 and 3.11.
@@ -22,45 +9,54 @@ We recommend using a virtual environment for dependency isolation. You can set u
 ### Manual Setup
 
 1. **Clone the Repository:**
-
+```bash
    git clone git@github.com:adjones-aops/sp-feedback.git
    cd sp-feedback
+```
 
 2. **Create a Virtual Environment:**
-
+```bash
    python -m venv env
+```
 
 3. **Activate the Virtual Environment:**
-
+```bash
    - On macOS/Linux:
      source env/bin/activate
+```
 
    - On Windows:
+```
      env\Scripts\activate
+```
 
 4. **Install Dependencies:**
-
+```bash
    pip install --upgrade pip
    pip install -r requirements.txt
    pip install --editable .
+```
 
 ### Automated Setup Using Makefile
 
 If you have GNU Make installed, you can simplify the process by running:
-
-make setup
+```bash
+   make setup
+```
 
 ## Usage
 
 ### Running the Pipeline via Streamlit
 
 After setting up the environment, launch the Streamlit app from the root directory by running:
-
-streamlit run streamlit_app/app.py
+```bash
+   streamlit run streamlit_app/app.py
+```
 
 or, if you set up the Makefile, run:
-
-make run    
+```bash
+   make run    
+```
 
 This interactive app allows you to:
 
@@ -77,13 +73,10 @@ This interactive app allows you to:
 
 ### Running Tests
 
-To run the complete test suite, use:
-
-pytest
-
-Or, if you set up the Makefile, run:
-
-make test
+To run the complete test suite, from the root directory, run:
+```bash
+   pytest
+```
 
 ## Development & CI
 
