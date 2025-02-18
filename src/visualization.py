@@ -94,8 +94,6 @@ def plot_stacked_bar(agg_df, course, output_filename=None, mode="chronological")
         os.makedirs(output_dir, exist_ok=True)
         plt.savefig(output_filename)
         print(f"Plot saved to {output_filename}")
-    else:
-        plt.show()
 
 
 def main():
