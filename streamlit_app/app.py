@@ -1,13 +1,24 @@
+# flake8: noqa: E402
 import os
-import subprocess
 import sys
+
+# Add the repository root (one level up) to sys.path
+current_dir = os.path.dirname(__file__)
+parent_dir = os.path.abspath(os.path.join(current_dir, ".."))
+if parent_dir not in sys.path:
+    sys.path.insert(0, parent_dir)
+
+# (Optional) Debug print to check that the parent directory is included:
+print("Updated sys.path:", sys.path)
+
+import subprocess
 from io import BytesIO
 
-import bootstrap  # noqa: F401
 import matplotlib.pyplot as plt
 import pandas as pd
 import streamlit as st
 
+import streamlit_app.bootstrap as bootstrap  # noqa: F401
 from src.visualization import plot_stacked_bar
 from streamlit_app.utils import (
     build_course_display_map,
