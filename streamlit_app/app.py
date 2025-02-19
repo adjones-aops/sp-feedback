@@ -3,6 +3,7 @@ import subprocess
 import sys
 from io import BytesIO
 
+import bootstrap  # noqa: F401
 import matplotlib.pyplot as plt
 import pandas as pd
 import streamlit as st
@@ -15,8 +16,6 @@ from streamlit_app.utils import (
     get_course_full_name,
     sort_course_display_names,
 )
-
-# Must be the first Streamlit call
 
 
 def run_pipeline():
